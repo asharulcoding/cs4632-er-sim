@@ -1,0 +1,14 @@
+@startuml
+start
+:Generate interarrival time;
+:Create patient;
+:Assign triage level (priority);
+:Queue for triage nurse (priority);
+:Service at triage;
+fork
+  :Queue for MD (priority);
+  :Service at MD;
+end fork
+:Record metrics (waits, LOS);
+stop
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+skinparam classAttributeIconSize 0
+class SimConfig
+class EDResources {
+  +PriorityResource triage_nurse
+  +PriorityResource md
+  +PriorityResource rn
+  +Resource rooms
+  +dump_results()
+}
+class PriorityResource
+class main {
+  +run(hours, seed, cfg)
+}
+class arrivals {
+  +patient_arrival_process()
+}
+class triage {
+  +triage_and_route()
+}
+
+main --> EDResources
+arrivals --> EDResources
+triage --> EDResources
+main --> arrivals
+main --> triage
+@enduml
