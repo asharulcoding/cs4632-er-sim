@@ -1,29 +1,27 @@
 # CS4632 — Emergency Room Simulation (ER Sim)
 
-A discrete‑event simulation (DES) of a hospital Emergency Department (ED) focused on **patient triage, queueing, resource allocation**, and **staff scheduling** using Python and SimPy.
+This project is a discrete-event simulation of an emergency department. It focuses on patient triage, queues, resource use, and staff schedules. The goal is to study how changes in staffing or capacity affect wait times and overall flow.
 
-## Key models
-- **Queueing theory**: M/M/c‑style queues for triage, registration, rooms, lab/imaging; priority queues for emergent cases
-- **Priority scheduling / triage**: ESI‑inspired 5‑level triage mapped to simulation priorities
-- **Resource optimization**: What‑if experiments on number of nurses, physicians, rooms, and shift patterns
+## Models used
+- **Queueing theory**: Patients are modeled in M/M/c style queues for triage, registration, rooms, and lab/imaging. Emergency cases use priority queues.  
+- **Triage system**: Patients are assigned a priority level based on the Emergency Severity Index (five levels). These levels map to priority scheduling in the simulation.  
+- **Resource use**: The model allows testing different numbers of nurses, physicians, rooms, and schedules to see how resources affect outcomes.  
 
-## Metrics (logged to CSV)
-- Wait times by triage level
-- Resource utilization (nurses, physicians, rooms)
-- Throughput / LWBS (left‑without‑being‑seen) surrogate
-- Length of stay (LOS) distribution
-- Service level: P(wait < target) by triage level
+## Metrics collected
+- Wait times for each triage level  
+- Utilization of nurses, physicians, and rooms  
+- Patient throughput and cases where patients leave without being seen  
+- Length of stay distribution  
+- Service levels (probability that wait times stay under a target value by triage level)  
 
-## Getting started
+## How to run 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python src/main.py --hours 24 --seed 42
-```
 
-## Project layout
-```
+##Project structure
 cs4632-er-sim/
 ├─ src/
 │  ├─ main.py
@@ -33,18 +31,16 @@ cs4632-er-sim/
 │     ├─ triage.py
 │     ├─ service_stations.py
 │     └─ scheduler.py
-├─ data/                 # CSV outputs, sample configs
-├─ docs/                 # Figures for paper
-├─ uml/                  # PlantUML diagrams (.puml)
-├─ tests/                # Unit tests (pytest)
-├─ refs.bib              # Literature sources (≥5)
+├─ data/           # output CSVs and configs
+├─ docs/           # figures for the report
+├─ uml/            # UML diagrams
+├─ tests/          # pytest files
+├─ refs.bib        # bibliography
 ├─ requirements.txt
 ├─ .gitignore
 └─ README.md
-```
 
-## Reproducing experiments
-Use `src/sim_config.py` to define scenarios (e.g., different numbers of nurses, staggered shifts, or priority rules). Run multiple seeds and compare CSV outputs.
-
+## Running experiments
+Scenarios are defined in src/sim_config.py. By changing the number of staff or the schedule setup, different cases can be tested. Running multiple seeds and comparing results makes it possible to study variation in outcomes.
 ## License
 MIT
