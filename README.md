@@ -3,6 +3,7 @@
 
 **Author:** Aashna Suthar, Ash Arul
 
+## Project Overview
 This project is a discrete-event simulation of an emergency room. The goal is to look at how patients move through the ER and how staff/resources are used when things get busy. We’re focusing on triage, queues, and staff schedules to see how changes in setup affect wait times and overall flow.
 
 ## Project Status
