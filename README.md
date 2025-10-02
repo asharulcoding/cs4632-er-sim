@@ -1,4 +1,7 @@
 # CS4632 — Emergency Room Simulation (ER Sim)
+**Course:** CS 4632 W01 Fall Semester
+
+**Author:** Aashna Suthar, Ash Arul
 
 This project is a discrete-event simulation of an emergency room. The goal is to look at how patients move through the ER and how staff/resources are used when things get busy. We’re focusing on triage, queues, and staff schedules to see how changes in setup affect wait times and overall flow.
 
