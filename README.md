@@ -75,7 +75,7 @@ Scenarios are defined in src/sim_config.py. By changing the number of staff or t
 
 ## Project Management
 We are tracking progress using a Github Project Board with "To Do / In Progress / Done" columns. 
-- [Insert project board link once created]
+- https://github.com/users/AashnaS23/projects/4
 
 ## License
 MIT
