@@ -7,19 +7,19 @@
 This project is a discrete-event simulation of an emergency room. The goal is to look at how patients move through the ER and how staff/resources are used when things get busy. We’re focusing on triage, queues, and staff schedules to see how changes in setup affect wait times and overall flow.
 
 ## Project Status
-Currently the basics are working:
+**Currently the basics are working:**
 - Patients show up randomly (Poisson arrivals).
 - They get a severity level (using the 5-level Emergency Severity Index).
 - Triage nurses, doctors, and rooms are all modeled as resources with limits.
 - The simulation tracks wait times, length of stay, and how busy staff are.
 - Results are written to a CSV file.
 
-Still working on:
+**Still working on:**
 - Adding shift scheduling (staggered shifts, surge staff, etc.).  
 - Modeling labs/imaging and adding their turnaround times.  
 - Graphing/visuals with matplotlib.
 
-Planned next:
+**Planned next:**
 - Fine-tuning parameters to match more realistic data.  
 - Expanding the test cases with pytest.  
 - Running experiments with different staffing levels and patient loads.
@@ -36,13 +36,21 @@ Planned next:
 - Length of stay distribution  
 - Service levels (probability that wait times stay under a target value by triage level)  
 
-## How To Run
+## Installation Instructions
 ```bash
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+```
+## Usage Instructions
+To run the simulation for 24 hours with a fixed random seed: 
+```bash
 python src/main.py --hours 24 --seed 42
 ```
+
+**Expected Output:**
+- A 'results.csv' file will be created under the 'data/' folder.
+- It includes triage wait times, doctor wait times, and length of stay values.
 
 ## Project Structure
 ```bash
