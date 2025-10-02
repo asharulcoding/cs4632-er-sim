@@ -1,24 +1,28 @@
 # CS4632 — Emergency Room Simulation (ER Sim)
+**Course:** CS 4632 W01 Fall Semester
 
+**Author(s):** Aashna Suthar, Ash Arul
+
+## Project Overview
 This project is a discrete-event simulation of an emergency room. The goal is to look at how patients move through the ER and how staff/resources are used when things get busy. We’re focusing on triage, queues, and staff schedules to see how changes in setup affect wait times and overall flow.
 
 ## Project Status
 Currently the basics are working:
 - Patients show up randomly (Poisson arrivals).
-- They get a severity level (using the 5-level Emergency Severity Index).
-- Triage nurses, doctors, and rooms are all modeled as resources with limits.
-- The simulation tracks wait times, length of stay, and how busy staff are.
-- Results are written to a CSV file.
+- Each patient gets a severity level (using the 5-level Emergency Severity Index (ESI)).
+- Triage nurses, doctors, and rooms are treated as limited resources.
+- The simulation tracks wait times, length of stay, and staff workload.
+- Results are saved into a CSV file.
 
 Still working on:
-- Adding shift scheduling (staggered shifts, surge staff, etc.).  
-- Modeling labs/imaging and adding their turnaround times.  
-- Graphing/visuals with matplotlib.
+- Adding staff scheduling (staggered shifts, backup staff, etc.).  
+- Labs/imaging with their own turnaround times.  
+- Graphs/plots with matplotlib (displaying histogram of patient wait times, line graph of utilization (%) over time, etc.). 
 
 Planned next:
-- Fine-tuning parameters to match more realistic data.  
-- Expanding the test cases with pytest.  
-- Running experiments with different staffing levels and patient loads.
+- Fine-tuning and adjusting parameters to match more realistic data.  
+- Writing more test cases with pytest.  
+- Running experiments with different numbers of staff and patients.
 
 ## Models Used
 - **Queueing theory**: Patients are modeled in M/M/c style queues for triage, registration, rooms, and lab/imaging. Emergency cases use priority queues.  
