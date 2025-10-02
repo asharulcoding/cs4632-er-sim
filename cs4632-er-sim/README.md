@@ -36,13 +36,21 @@ Planned next:
 - Length of stay distribution  
 - Service levels (probability that wait times stay under a target value by triage level)  
 
-## How To Run
+## Installation Instructions
 ```bash
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+```
+## Usage Instructions
+To run the simulation for 24 hours with a fixed random seed: 
+```bash
 python src/main.py --hours 24 --seed 42
 ```
+
+**Expected Output:**
+- A 'results.csv' file will be created under the 'data/' folder.
+- It includes triage wait times, doctor wait times, and length of stay values.
 
 ## Project Structure
 ```bash
