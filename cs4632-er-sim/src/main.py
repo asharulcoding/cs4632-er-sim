@@ -2,20 +2,21 @@ import argparse
 import numpy as np
 import simpy
 import sim_config as cfg
+from models.scheduler import StaffScheduler
 
 
 def patient(env, name, triage, beds, rng, log):
     t0 = env.now
 
     # triage
-    with triage.request() as req:
+    with triage.resource.request() as req:
         yield req
         triage_start = env.now
         yield env.timeout(rng.exponential(5))   # ~5 min
         triage_end = env.now
 
     # treatment
-    with beds.request() as req:
+    with beds.resource.request() as req:
         yield req
         bed_start = env.now
         yield env.timeout(rng.exponential(60))  # ~60 min
@@ -29,21 +30,29 @@ def patient(env, name, triage, beds, rng, log):
     })
 
 
-def arrivals(env, triage, beds, lam, rng, log):
+def arrivals(env, triage_scheduler, beds_scheduler, lam, rng, log):
     i = 0
     while True:
         yield env.timeout(rng.exponential(1.0 / lam))
         i += 1
-        env.process(patient(env, f"p{i}", triage, beds, rng, log))
+        env.process(patient(env, f"p{i}", triage_scheduler, beds_scheduler, rng, log))
 
 
 def simulate(seed, minutes, lam, triage_cap, bed_cap):
     rng = np.random.default_rng(seed)
     env = simpy.Environment()
-    triage = simpy.Resource(env, capacity=triage_cap)
-    beds = simpy.Resource(env, capacity=bed_cap)
+
+    triage_scheduler = StaffScheduler(env, triage_cap, [
+        (0, 720, triage_cap),
+        (720, 1080, triage_cap - 1)
+    ])
+    beds_scheduler = StaffScheduler(env, bed_cap, [
+        (0, 720, bed_cap // 2),
+        (720, 1440, bed_cap)
+    ])
+
     log = []
-    env.process(arrivals(env, triage, beds, lam, rng, log))
+    env.process(arrivals(env, triage_scheduler, beds_scheduler, lam, rng, log))
     env.run(until=minutes)
     return log
 
