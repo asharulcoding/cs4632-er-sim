@@ -1,6 +1,8 @@
 import argparse
+from sim_config import SimConfig
 import numpy as np
 import simpy
+import pandas as pd
 import sim_config as cfg
 from models.scheduler import StaffScheduler
 from models.labs import LabImaging
@@ -87,14 +89,46 @@ def summarize(records):
     print(f"Avg total time: {total:.2f}")
 
 
+def save_results(records, filename="data/results_with_labs.csv"):
+    """Save simulation records to CSV for later analysis."""
+    df = pd.DataFrame(records)
+    df.to_csv(filename, index=False)
+    print(f"Results saved to {filename}")
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("--seed", type=int, default=cfg.SEED)
-    p.add_argument("--minutes", type=int, default=cfg.SIM_MINUTES)
-    p.add_argument("--lam", type=float, default=cfg.ARRIVAL_LAMBDA)
-    p.add_argument("--triage", type=int, default=cfg.TRIAGE_CAPACITY)
-    p.add_argument("--beds", type=int, default=cfg.BED_CAPACITY)
-    a = p.parse_args()
+    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--minutes", type=int, default=8*60)
+    p.add_argument("--lam", type=float, default=0.8)
+    p.add_argument("--triage", type=int, default=1)
+    p.add_argument("--beds", type=int, default=5)
+    p.add_argument("--labs", type=int, default=1)
+    args = p.parse_args()
 
-    rec = simulate(a.seed, a.minutes, a.lam, a.triage, a.beds)
+    # === Validation ===
+    problems = []
+    if args.minutes <= 0:
+        problems.append("minutes must be > 0")
+    if args.lam < 0:
+        problems.append("arrival rate (lam) must be >= 0")
+    if args.triage < 0:
+        problems.append("triage capacity must be >= 0")
+    if args.beds < 0:
+        problems.append("bed capacity must be >= 0")
+    if args.labs < 0:
+        problems.append("labs capacity must be >= 0")
+
+    if problems:
+        raise ValueError("Invalid config: " + "; ".join(problems))
+
+    # === Run Simulation ===
+    rec = simulate(args.seed, args.minutes, args.lam, args.triage, args.beds, args.labs)
     summarize(rec)
+
+    # === Save Results ===
+    import os
+    os.makedirs("data", exist_ok=True)
+
+    filename = f"data/run_seed{args.seed}_beds{args.beds}_labs{args.labs}.csv"
+    save_results(rec, filename)
