@@ -110,14 +110,14 @@ if __name__ == "__main__":
     problems = []
     if args.minutes <= 0:
         problems.append("minutes must be > 0")
-    if args.lam < 0:
-        problems.append("arrival rate (lam) must be >= 0")
-    if args.triage < 0:
-        problems.append("triage capacity must be >= 0")
-    if args.beds < 0:
-        problems.append("bed capacity must be >= 0")
-    if args.labs < 0:
-        problems.append("labs capacity must be >= 0")
+    if args.lam <= 0:
+        problems.append("arrival rate (lam) must be > 0")
+    if args.triage <= 0:
+        problems.append("triage capacity must be > 0")
+    if args.beds <= 0:
+        problems.append("bed capacity must be > 0")
+    if args.labs <= 0:
+        problems.append("labs capacity must be > 0")
 
     if problems:
         raise ValueError("Invalid config: " + "; ".join(problems))
@@ -128,7 +128,6 @@ if __name__ == "__main__":
 
     # === Save Results ===
     import os
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("data/m3_batch_runs", exist_ok=True)
 
-    filename = f"data/run_seed{args.seed}_beds{args.beds}_labs{args.labs}.csv"
-    save_results(rec, filename)
+    filename = f"data/m3_batch_runs/run_seed{args.seed}_beds{args.beds}_labs{args.labs}.csv"
