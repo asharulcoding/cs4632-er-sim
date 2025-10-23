@@ -1,5 +1,11 @@
-SEED = 42
-SIM_MINUTES = 8 * 60
-ARRIVAL_LAMBDA = 0.8
-TRIAGE_CAPACITY = 1
-BED_CAPACITY = 5
+# sim_config.py
+from dataclasses import dataclass
+
+@dataclass
+class SimConfig:
+    seed: int = 42
+    minutes: int = 8 * 60   # 8 hours
+    arrival_lambda: float = 0.8
+    triage_capacity: int = 1
+    bed_capacity: int = 5
+    labs_capacity: int = 1   # new for labs/imaging
