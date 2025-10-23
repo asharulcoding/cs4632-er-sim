@@ -6,23 +6,25 @@
 ## Project Overview
 This project is a discrete-event simulation of an emergency room. The goal is to look at how patients move through the ER and how staff/resources are used when things get busy. We’re focusing on triage, queues, and staff schedules to see how changes in setup affect wait times and overall flow.
 
-## Project Status
-Currently the basics are working:
-- Patients show up randomly (Poisson arrivals).
-- Each patient gets a severity level (using the 5-level Emergency Severity Index (ESI)).
-- Triage nurses, doctors, and rooms are treated as limited resources.
-- The simulation tracks wait times, length of stay, and staff workload.
-- Results are saved into a CSV file.
+## Project Status - (Milestone 3)
+**Done:**  
+- Arrivals, triage, beds, staff scheduling, and labs/imaging are working  
+- Command-line arguments for parameters (`--beds`, `--labs`, `--minutes`, `--seed`)  
+- Validation added so values can’t be negative  
+- Results save automatically into CSVs with clear names  
+- Batch runs script added for 10+ experiments  
+- Tests written with pytest (all passing)  
 
-Still working on:
-- Adding staff scheduling (staggered shifts, backup staff, etc.).  
-- Labs/imaging with their own turnaround times.  
-- Graphs/plots with matplotlib (displaying histogram of patient wait times, line graph of utilization (%) over time, etc.). 
+**Data collected:**  
+- Patient arrivals  
+- Triage wait  
+- Bed wait  
+- Lab time  
+- Total time  
 
-Planned next:
-- Fine-tuning and adjusting parameters to match more realistic data.  
-- Writing more test cases with pytest.  
-- Running experiments with different numbers of staff and patients.
+**Still improving later:**  
+- More graphs/plots with matplotlib  
+- More test cases  
 
 ## Models Used
 - **Queueing theory**: Patients are modeled in M/M/c style queues for triage, registration, rooms, and lab/imaging. Emergency cases use priority queues.  
@@ -43,47 +45,96 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 ## Usage Instructions
-To run the simulation for 24 hours with a fixed random seed: 
+To run the simulation:
+
+**Default Run (8 hours)**:
 ```bash
-python src/main.py --hours 24 --seed 42
+python src/main.py --beds 5 --labs 1 --minutes 480 --seed 42
+```
+**24-hour Run (24 hours)**:
+```bash
+python src/main.py --beds 5 --labs 1 --minutes 1440 --seed 42
+```
+**Arguments**:
+- (--beds) = number of beds (default 5)
+- (--labs) = number of lab stations (default 1)
+- (--minutes) = how long to run (default 480 = 8 hrs, can be set to 1440 for 24 hrs)
+- (--seed) = random seed (default 42)
+
+**Output**:
+- Console shows run summary
+- Multiple results saved under data/ as "run_seed42_beds5_labs1.csv"
+
+**Run multiple experiments**:
+```bash
+python src/batch_runs.py
+```
+This runs 10+ experiments with different setups.
+Results go to:
+```bash
+data/batch_runs_folder/
 ```
 
-**Expected Output:**
-- A 'results.csv' file will be created under the 'data/' folder.
-- It includes triage wait times, doctor wait times, and length of stay values.
+**Run tests**:
+```bash
+pytest -v
+```
+
+Expected:
+```bash
+3 passed
+```
 
 ## Project Structure
 ```bash
 cs4632-er-sim/
+├─ data/                        # simulation outputs
+│  └─ m3_batch_runs/            # batch run CSV files
+├─ screenshots/                 # console + CSV screenshots for M3
 ├─ src/
-│  ├─ main.py
-│  ├─ sim_config.py
-│  └─ models/
-│     ├─ arrivals.py
-│     ├─ triage.py
-│     ├─ service_stations.py
-│     └─ scheduler.py
-├─ data/           # output CSVs and configs
-├─ docs/           # figures for the report
-├─ uml/            # UML diagrams
-├─ tests/          # pytest files
-├─ refs.bib        # bibliography
-├─ requirements.txt
-├─ .gitignore
-└─ README.md
+│  ├─ __init__.py
+│  ├─ batch_runs.py             # batch experiment runner
+│  ├─ main.py                   # main simulation runner
+│  ├─ sim_config.py             # baseline configuration
+│  ├─ models/
+│  │  ├─ __init__.py
+│  │  ├─ labs.py                # labs/imaging process
+│  │  └─ scheduler.py           # staff scheduling
+│  └─ tests/
+│     └─ test_sim.py            # pytest verification tests
+├─ uml/                         # UML diagrams
+├─ refs.bib                     # references
+├─ requirements.txt             # Python dependencies
+├─ pytest.ini                   # pytest config
+├─ README.md
+
 ```
 ## Architecture Overview
-- **main.py**: sets up and runs the simulation loop.
-- **sim_config.py**: holds parameters (arrival rates, service times, staff numbers).
-- **arrivals.py**: handles patient arrivals.
-- **triage.py**: assigns severity and simulates triage.
-- **service_stations.py**: manages doctors, nurses, and rooms. Tracks metrics.
-- **scheduler.py**: placeholder for staff shift scheduling (future).
-  
-These line up with the UML diagrams (class + activity)
+- **main.py**: sets up and runs the simulation (patients, triage, beds, labs).  
+- **batch_runs.py**: runs multiple experiments automatically with different seeds and parameters.  
+- **sim_config.py**: stores baseline default parameters (seed, minutes, arrival rates, capacities).  
+- **models/scheduler.py**: handles staff scheduling (shift changes across time).  
+- **models/labs.py**: simulates labs/imaging with random turnaround times.  
+- **tests/test_sim.py**: verification tests to make sure patients are logged and times are valid.  
+
+These align with the UML diagrams (class + activity) in the `uml/` folder.  
 
 ## Running Experiments
-Scenarios are defined in src/sim_config.py. By changing the number of staff or the schedule setup, different cases can be tested. Running multiple seeds and comparing results makes it possible to study variation in outcomes.
+You can change scenarios in two ways:  
+
+1. **Command-line parameters**  
+   Run a single simulation with different values, for example:  
+   ```bash
+   python src/main.py --beds 10 --labs 5 --minutes 1440 --seed 99
+   ```
+2. **Batch runs**
+   ```bash
+   python src/batch_runs.py
+   ```
+
+   Results are saved into:
+   data/batch_runs_folder/
+
 
 ## Project Management
 We are tracking progress using a Github Project Board with "To Do / In Progress / Done" columns. 
