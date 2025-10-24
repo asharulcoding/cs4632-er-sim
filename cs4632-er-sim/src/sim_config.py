@@ -9,3 +9,4 @@ class SimConfig:
     triage_capacity: int = 1
     bed_capacity: int = 5
     labs_capacity: int = 1   # new for labs/imaging
+

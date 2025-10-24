@@ -131,3 +131,5 @@ if __name__ == "__main__":
     os.makedirs("data/m3_batch_runs", exist_ok=True)
 
     filename = f"data/m3_batch_runs/run_seed{args.seed}_beds{args.beds}_labs{args.labs}.csv"
+
+

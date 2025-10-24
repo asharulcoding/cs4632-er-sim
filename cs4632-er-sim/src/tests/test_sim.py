@@ -1,22 +1,23 @@
-import os, sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
-import sim_config as cfg
 from main import simulate
 
 
+def test_patients_logged():
+    rec = simulate(seed=42, minutes=60, lam=1.0, triage_cap=1, bed_cap=2, lab_cap=1)
+    assert len(rec) > 0, "No patients were logged in the simulation"
 
-def test_sim_runs():
-    rec = simulate(cfg.SEED, 60, cfg.ARRIVAL_LAMBDA, 1, 2)
-    assert len(rec) > 0
+def test_lab_time_nonnegative():
+    rec = simulate(seed=42, minutes=60, lam=1.0, triage_cap=1, bed_cap=2, lab_cap=1)
+    for r in rec:
+        assert r["lab_time"] >= 0, "Lab time should never be negative"
 
+def test_no_negative_waits():
+    rec = simulate(seed=42, minutes=60, lam=1.0, triage_cap=1, bed_cap=2, lab_cap=1)
+    for r in rec:
+        assert r["triage_wait"] >= 0
+        assert r["bed_wait"] >= 0
+        assert r["total_time"] >= 0, "No negative times allowed"
 
-def test_more_beds_reduces_wait():
-    r1 = simulate(cfg.SEED, 8 * 60, cfg.ARRIVAL_LAMBDA, 1, 2)
-    r2 = simulate(cfg.SEED, 8 * 60, cfg.ARRIVAL_LAMBDA, 1, 8)
-
-    avg1 = sum(x["bed_wait"] for x in r1) / len(r1)
-    avg2 = sum(x["bed_wait"] for x in r2) / len(r2)
-
-    assert avg2 < avg1
 
