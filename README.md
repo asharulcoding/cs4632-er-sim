@@ -86,10 +86,10 @@ This project was completed over five milestones. Each milestone built on the pre
 - Prepared all final deliverables for Milestone 5 submission.
 
 ## Models Used
-**Queueing theory:** The ER is modeled using queue-based resource systems (M/M/c style behavior).
-**Triage system:** Patients receive ESI severity levels (1–5) which map to priority scheduling.
-**Resource utilization:** Triage nurses, beds, doctors, and labs are treated as limited shared resources.
-**Discrete-event simulation:** Events such as arrivals, triage completion, bed assignment, lab service, and discharge advance the system.
+**- Queueing theory:** The ER is modeled using queue-based resource systems (M/M/c style behavior).
+**- Triage system:** Patients receive ESI severity levels (1–5) which map to priority scheduling.
+**- Resource utilization:** Triage nurses, beds, doctors, and labs are treated as limited shared resources.
+**- Discrete-event simulation:** Events such as arrivals, triage completion, bed assignment, lab service, and discharge advance the system.
 
 ## Metrics Collected
 - Triage wait time
