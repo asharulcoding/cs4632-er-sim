@@ -1,4 +1,4 @@
-# CS4632 — Emergency Room Simulation (ER Sim)
+# CS 4632 — Emergency Room Simulation (ER Sim)
 **Course:** CS 4632 W01 Fall Semester
 
 **Author:** Aashna Suthar, Ash Arul
