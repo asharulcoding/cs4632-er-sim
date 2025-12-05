@@ -152,6 +152,7 @@ cs4632-er-sim/
 - **triage.py**: Assigns severity levels and simulates triage waiting.
 - **service_stations.py**: Handles beds, doctors, and labs as shared resources.
 - **scheduler.py**: Controls staffing behavior and capacity logic.
+- **visualize_results.py**: Generates plots, summaries, and statistical outputs.
   
 These files directly match the UML class and activity diagrams used in the final report.
 
@@ -173,6 +174,9 @@ All analysis results are documented in the final M5 report.
 ## Project Management
 We are tracking progress using a Github Project Board with "To Do / In Progress / Done" columns. 
 - https://github.com/users/AashnaS23/projects/4
+
+## Reproducibility
+All results in the report can be reproduced by running the simulation with the same parameters and random seeds used in the experiments.
 
 ## License
 MIT
