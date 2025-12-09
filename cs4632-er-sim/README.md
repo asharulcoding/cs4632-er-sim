@@ -90,6 +90,7 @@ Expected:
 cs4632-er-sim/
 ├─ data/                        # simulation outputs
 │  └─ m3_batch_runs/            # batch run CSV files
+├─ report/                      # milestone reports
 ├─ screenshots/                 # console + CSV screenshots for M3
 ├─ src/
 │  ├─ __init__.py
