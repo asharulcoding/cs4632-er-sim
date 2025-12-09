@@ -1,6 +1,7 @@
-# CS 4632 — Emergency Room Simulation (ER Sim)
-**Course:** CS 4632 W01 Fall Semester
-
+# CS 4632 — Emergency Room Discrete-Event Simulation (ER Sim)
+**Course:** CS 4632 - Modeling and Simulation 
+**Section:** Section W01
+**Semester:** Fall 2025
 **Author:** Aashna Suthar, Ash Arul
 
 ## Project Overview
@@ -9,7 +10,7 @@ This project is a discrete-event simulation of an emergency room. The goal is to
 This simulation was built across Milestones 1–5 and includes full implementation, data collection, scenario testing, sensitivity analysis, validation, and final reporting.
 
 ## Project Status
-This project was completed over five milestones. Each milestone built on the previous one and added new functionality, analysis, and validation.
+This project was completed over five milestones with it now being **fully completed**. Each milestone was built on the previous one and added new functionality, analysis, and validation.
 
 **Milestone 1**
 - Defined the overall problem and scope of the emergency room simulation.
@@ -29,7 +30,7 @@ This project was completed over five milestones. Each milestone built on the pre
 - Implemented CSV output for storing simulation results.
 - Added automated tests using pytest.
 - Verified that changing bed capacity affected wait times correctly.
-- Created a GitHub Project Board to track development progress.
+- Created a GitHub Project Management Board to track development progress.
 
 **Milestone 3**
 - Completed end-to-end simulation workflow from arrival to discharge.
@@ -72,12 +73,15 @@ This project was completed over five milestones. Each milestone built on the pre
 
 **Milestone 5**
 - Integrated all previous milestone work into one final, polished project.
-- Improved sensitivity analysis with calculated sensitivity coefficients.
-- Expanded scenario testing with deeper quantitative comparisons.
-- Strengthened validation using extreme-condition testing.
+- Computed formal sensitivity coefficients.
+- Expanded scenario testing with deeper quantitative and statistical comparisons.
+- Strengthened validation using extreme-condition testing:
+  - near-idle
+  - extreme overload
 - Added full statistical summary with visualizations:
   - box plots
   - histograms
+  - scenario comparison charts
 - Completed final ER system recommendations based on results.
 - Finalized the GitHub repository with clean structure and documentation.
 - Finalized the LaTeX report for professional submission.
@@ -86,10 +90,10 @@ This project was completed over five milestones. Each milestone built on the pre
 - Prepared all final deliverables for Milestone 5 submission.
 
 ## Models Used
-- **Queueing theory:** The ER is modeled using queue-based resource systems (M/M/c style behavior).
-- **Triage system:** Patients receive ESI severity levels (1–5) which map to priority scheduling.
-- **Resource utilization:** Triage nurses, beds, doctors, and labs are treated as limited shared resources.
-- **Discrete-event simulation:** Events such as arrivals, triage completion, bed assignment, lab service, and discharge advance the system.
+- **Queueing Theory:** The ER is modeled using queue-based resource systems (M/M/c style behavior).
+- **Priority-Based Triage (ESI):** Patients receive ESI severity levels (1–5) which map to priority scheduling.
+- **Resource Utilization:** Triage nurses, beds, doctors, and labs are treated as limited shared resources.
+- **Discrete-Event Simulation:** Events such as arrivals, triage completion, bed assignment, lab service, and discharge advance the system.
 
 ## Metrics Collected
 - Triage wait time
@@ -97,8 +101,8 @@ This project was completed over five milestones. Each milestone built on the pre
 - Lab processing time
 - Total time in the system
 - Patient throughput
-- System congestion under different conditions
-- Statistical summaries across multiple runs
+- System congestion statistics under different conditions
+- Statistical summaries (mean, variance, confidence intervals) across multiple runs
 
 ## Installation Instructions
 ```bash
@@ -127,41 +131,109 @@ python src/main.py --hours 24 --seed 42
 ## Project Structure
 ```bash
 cs4632-er-sim/
-├─ src/
-│  ├─ main.py
-│  ├─ sim_config.py
-│  └─ models/
-│     ├─ arrivals.py
-│     ├─ triage.py
-│     ├─ service_stations.py
-│     └─ scheduler.py
-├─ data/           # Output CSV files from simulation runs
-├─ figures/        # Plots and graphs used in the report
-├─ screenshots/    # Simulation and analysis screenshots
-├─ uml/            # UML diagrams
-├─ tests/          # pytest files
-├─ refs.bib        # bibliography
-├─ requirements.txt
-├─ .gitignore
-└─ README.md
+│
+├── src/                                      # Core simulation source code
+│   ├── main.py                               # Primary entry point for single simulation runs
+│   ├── batch_runs.py                         # Automates multi-seed batch experiments
+│   ├── m5_summary.py                         # Computes statistical summaries for M5
+│   ├── m5_scenario_summary.py                # Aggregates scenario-level statistics
+│   │
+│   └── models/                               # Object-oriented simulation components
+│       ├── arrivals.py                      # Patient arrival generation (Poisson process)
+│       ├── triage.py                        # Triage logic and nurse resource handling
+│       ├── service_stations.py              # Beds, labs, and treatment service modeling
+│       ├── scheduler.py                     # Queue management and patient flow control
+│       └── patient.py                       # Patient entity definition and attributes
+│
+├── data/                                    # Raw simulation output data (CSV)
+│   ├── m3_batch_runs/                        # Batch outputs from Milestone 3
+│   │   ├── run_seed999_beds1_labs1.csv
+│   │   ├── run_seed999_beds5_labs2.csv
+│   │   └── ...
+│   │
+│   ├── m4_summary/                              # Experiment data for Milestone 4
+│   │   ├── beds_sensitivity.csv
+│   │   ├── labs_sensitivity.csv
+│   │   └── scenario_comparisons.csv
+│   │
+│   └── m5_final_runs/                        # Final verified outputs for Milestone 5
+│       ├── extreme_overload.csv
+│       ├── near_idle.csv
+│       └── baseline.csv
+│
+├── M5_Analysis/                             # Final experimental analysis for M5
+│   ├── sensitivity/
+│   │   ├── m5_sensitivity_coefficients.csv
+│   │   ├── m5_beds_vs_total_time.png
+│   │   └── m5_labs_vs_total_time.png
+│   │
+│   ├── scenarios/
+│   │   ├── m5_scenario_statistical_summary.csv
+│   │   ├── scenario_total_time_comparison.png
+│   │   └── scenario_bed_wait_comparison.png
+│   │
+│   └── summary/
+│       ├── hist_per_run_total_time.png
+│       └── boxplot_per_run_total_time.png
+│
+├── screenshots/                            # Validation & execution proof
+│   ├── pytest_verification_tests.png
+│   ├── XtremeOverloadValid.png
+│   ├── NearIdleValid.png
+│   ├── terminal_run_example.png
+│   └── batch_execution_screenshot.png
+│
+├── uml/                                    # UML diagrams used in the report
+│   ├── ERActivityDiagram.png               # Patient flow logic
+│   └── ERClassDiagram.png                  # System class structure
+│
+├── tests/                                  # Automated unit testing (PyTest)
+│   ├── test_arrivals.py
+│   ├── test_triage.py
+│   ├── test_scheduler.py
+│   └── test_resources.py
+│
+├── figures/                               # Exported plots for report & presentation
+│   ├── beds_sensitivity_plot.png
+│   ├── labs_sensitivity_plot.png
+│   └── scenario_comparison_plot.png
+│
+├── requirements.txt                       # Python dependencies
+├── README.md                              # Project documentation
+├── .gitignore                             # Git exclusions
+└── LICENSE                                # MIT License
+
 ```
 ## Architecture Overview
 - **main.py**: Initializes the simulation, handles parameters, and runs the event loop.
+- **batch_runs.py**: Automates multi-seed experiments.
 - **sim_config.py**: Stores arrival rates, service distributions, and staffing setup.
 - **arrivals.py**: Generates patient arrivals using a Poisson process.
 - **triage.py**: Assigns severity levels and simulates triage waiting.
 - **service_stations.py**: Handles beds, doctors, and labs as shared resources.
 - **scheduler.py**: Controls staffing behavior and capacity logic.
 - **visualize_results.py**: Generates plots, summaries, and statistical outputs.
+- **m5_summary.py**: Generates final statistical summaries.
+- **m5_scenario_summary.py**: Aggregates scenario results.
+- **models/**: Contains arrival logic, triage, service stations, and scheduling.
   
 These files directly match the UML class and activity diagrams used in the final report.
 
 ## Running Experiments
-Different scenarios are defined by changing parameters in the command line or in sim_config.py. By running multiple seeds and multiple capacity combinations, we analyze system behavior under:
+Different scenarios are created by changing parameters such as:
+-Arrival rates 
+-Bed capacity
+-Lab capacity
+-Simulation length
+-Random seed
+
+Experiments were conducted under:
 - Normal load
-- High patient inflow
+- High inflow
 - Low staffing
-- Extended 24-hour stress conditions
+- High capacity
+- Extreme overload
+
 The output from these runs is used for sensitivity analysis, scenario comparison, and validation in Milestones 4 and 5.
 
 ## Data Analysis & Validation
