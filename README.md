@@ -1,4 +1,5 @@
 # CS 4632 — Emergency Room Discrete-Event Simulation (ER Sim)
+
 **Course:** CS 4632 - Modeling and Simulation 
 **Section:** Section W01
 **Semester:** Fall 2025
