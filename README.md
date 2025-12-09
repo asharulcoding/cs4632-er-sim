@@ -1,6 +1,7 @@
 # CS 4632 — Emergency Room Discrete-Event Simulation (ER Sim)
 
 **Course:** CS 4632 (W01) - Modeling and Simulation - Fall 2025
+
 **Author:** Aashna Suthar, Ash Arul
 
 ## Project Overview
